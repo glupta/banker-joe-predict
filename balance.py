@@ -18,14 +18,14 @@ def load_price():
 
     response = {}
 
-    #get AVAX balance 
+    #get AVAX balance on Banker Joe
     javax_query = 'https://api.snowtrace.io/api?module=account&action=tokenbalance&contractaddress='+banker_joe+'&address='+user_wallet+'&tag=latest&apikey='+avax_api_key
     javax_response = requests.get(javax_query).json()
     print('javax',javax_response)
-    javax_balance = int(javax_response['result']) / TEN_POWER_EIGHT * 50
-    response['javax_balance'] = javax_balance
+    avax_balance = int(javax_response['result']) / TEN_POWER_EIGHT / 50
+    response['avax_balance'] = avax_balance
 
-    #if iData supplied, provide next hardcoded price. Otherwise, get current price from chainlink
+    #if iData supplied, provide next hardcoded price. Otherwise, get current price from Chainlink
     if iData:
         btcPrices = [53453.99, 50610.0, 53409.48, 53601.05, 53041.33, 52982.5, 53112.4, 52000.01, 50256.61, 47538.02, 47482.79, 47242.75, 47500.58, 47475.49, 47370.51, 46489.66, 47053.32, 47387.01, 47828.28, 48203.74, 47842.98]
         response['price_data'] = btcPrices[int(iData)]
