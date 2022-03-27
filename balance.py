@@ -9,12 +9,11 @@ TEN_POWER_EIGHT = 100000000
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
+def load_price():
     user_wallet = request.args.get('wallet')
     iData = request.args.get('iData')
 
     response = {}
-    json_data = json.dumps(data)
 
     #get AVAX balance 
     javax_query = 'https://api.snowtrace.io/api?module=account&action=tokenbalance&contractaddress='+banker_joe+'&address='+user_wallet+'&tag=latest&apikey='+avax_api_key
