@@ -1,7 +1,7 @@
 
 
 
-Get current BTC price on Avalanche C-Chain from Chainlinke and get AVAX balance from Trader Joe for the user wallet address = 0x65dac8b5d5d31b1150d8a5a5a14ed0e3a6827da8
+Get current BTC price on Avalanche C-Chain from Chainlink and get AVAX balance from Trader Joe for the user wallet address = 0x65dac8b5d5d31b1150d8a5a5a14ed0e3a6827da8
 
 ```
 export FLASK_APP=balance
