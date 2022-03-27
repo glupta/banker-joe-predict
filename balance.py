@@ -3,6 +3,8 @@ from web3 import Web3
 import time
 import requests
 import json
+import os
+from twilio.rest import Client
 
 TEN_POWER_EIGHT = 100000000
 
@@ -10,6 +12,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def load_price():
+    print('url', request.url)
     user_wallet = request.args.get('wallet')
     iData = request.args.get('iData')
 
@@ -21,7 +24,7 @@ def load_price():
     #get AVAX balance on Banker Joe
     javax_query = 'https://api.snowtrace.io/api?module=account&action=tokenbalance&contractaddress='+banker_joe+'&address='+user_wallet+'&tag=latest&apikey='+avax_api_key
     javax_response = requests.get(javax_query).json()
-    print('javax',javax_response)
+    print('javax',javax_response, 'wallet',user_wallet)
     avax_balance = int(javax_response['result']) / TEN_POWER_EIGHT / 50
     response['avax_balance'] = avax_balance
 
@@ -41,5 +44,21 @@ def load_price():
         currentPrice = latestData[1] / TEN_POWER_EIGHT
         print('currentPrice', currentPrice)
         response['price_data'] = currentPrice
+
+    body = "BTC price has dropped to $" + str(response['price_data']) + ". Your AVAX balance is " + str(response['avax_balance'])
+    print('body', body)
+
+    #run price in prediction model and assume warning = true
+    # Find your Account SID and Auth Token at twilio.com/console
+    # and set the environment variables. See http://twil.io/secure
+    account_sid = 'AC9f8af87d7e6680f6187c87385c73045e'
+    auth_token = '3f203a5d18c2fbaa287e569b18327bd7'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        body=body,
+        from_='+18705328834',
+        to='+917607317444'
+    )
 
     return json.dumps(response)
